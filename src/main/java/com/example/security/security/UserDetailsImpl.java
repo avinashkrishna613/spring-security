@@ -23,6 +23,7 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String email;
     private List<GrantedAuthority> authorities;
 
     @Override
@@ -37,6 +38,7 @@ public class UserDetailsImpl implements UserDetails {
             user.getId(),
             user.getUsername(),
             user.getPassword(),
+            user.getEmail(),
             authorities
         );
     }

@@ -27,15 +27,23 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 									FilterChain filterChain) throws ServletException, IOException {
 		try {
+			// extracts jwt token from header
 			String jwt = parseJwt(request);
 			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+
+				// extract username from the jwt token
 				String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
+				// load the user details by username
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+				// creating an authentication object to put it in the security context holder.
 				UsernamePasswordAuthenticationToken authentication =
 						new UsernamePasswordAuthenticationToken(userDetails, null,
 								userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+				// add that authentication object to security context holder
 				SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 				securityContext.setAuthentication(authentication);
 				SecurityContextHolder.setContext(securityContext);
