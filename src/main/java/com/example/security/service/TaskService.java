@@ -154,4 +154,21 @@ public class TaskService {
 				.status(task.getStatus()).username(task.getUser().getUsername())
 				.createdAt(task.getCreatedAt()).updatedAt(task.getUpdatedAt()).build();
 	}
+
+	/**
+	 * Check if current user owns the task
+	 * Used by @PreAuthorize in controller
+	 */
+	public boolean isTaskOwner(Long taskId) {
+		try {
+			Task task = taskRepository.findById(taskId).orElse(null);
+
+			if (task == null) return false;
+
+			User currentUser = getCurrentUser();
+			return task.getUser().getId().equals(currentUser.getId());
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

@@ -77,6 +77,8 @@ public class SpringSecurityConfig {
                         .frameOptions(frame -> frame.sameOrigin())
                 );
 
+        // add the filter instance to security filter chain immediately before the internal UsernamePasswordAuthenticationFilter
+        // This is part of spring SecurityFilterChain, not the servlet filter order
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
