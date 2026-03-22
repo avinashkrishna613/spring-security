@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.example.security.entity.ROLE;
 import com.example.security.security.AuthEntryPointJwt;
 import com.example.security.security.AuthTokenFilter;
 
@@ -71,6 +72,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/h2-db/**").permitAll()
+                        .requestMatchers("/actuator/**").hasRole(ROLE.ADMIN.toString())
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers

@@ -2,6 +2,7 @@ package com.example.security.security;
 
 import java.io.IOException;
 
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -12,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-@Order(1)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 // This is just extending OncePerRequestFilter or if it implements Filter also it is considered as servlet filter not securityfilterchain.
 public class LogFilter extends OncePerRequestFilter {
 
